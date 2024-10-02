@@ -1,0 +1,19 @@
+<h1>Buscar tweets</h1>
+
+<%= form_with(url: busqueda_tweets_path, 
+                method: :get, 
+                local: true) do |form| %>
+  <%= form.label :q, "Buscar:" %>
+  <%= form.text_field :q %>
+  <%= form.submit "Buscar" %>
+<% end %>
+
+<% if @tweets.present? %>
+  <a>Búsqueda:</a>
+  <div id="tweets">
+    <%= render @tweets %>
+  </div>
+  <%= paginate @tweets %>
+<% elsif params[:q].present? %>
+  <a>No encontramos coincidencias-</a>
+<% end %>
