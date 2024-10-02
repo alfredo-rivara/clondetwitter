@@ -3,12 +3,16 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
+    # ordenamos los tweets por fecha de creación
     @tweets = Tweet.order(created_at: :desc)
 
+    # agregamos URL query para buscar tweets
     if params[:q].present?
-      @tweets = @tweets.where("description LIKE ? OR username LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+      @tweets = @tweets.search_by_description_and_username(params[:q])
     end
-    @tweets = Tweet.page(params[:page]).per(10)
+
+    # filtramos 10 tweets por página
+    @tweets = @tweets.page(params[:page]).per(10)
   end
 
   # GET /tweets/1 or /tweets/1.json
