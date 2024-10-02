@@ -3,7 +3,12 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
-    @tweets = Tweet.order(created_at: :desc).page(params[:page]).per(10)
+    @tweets = Tweet.order(created_at: :desc)
+
+    if params[:q].present?
+      @tweets = @tweets.where("description LIKE ? OR username LIKE ?", "%#{params[:q]}%", "%#{params[:q]}%")
+    end
+    @tweets = Tweet.page(params[:page]).per(10)
   end
 
   # GET /tweets/1 or /tweets/1.json
