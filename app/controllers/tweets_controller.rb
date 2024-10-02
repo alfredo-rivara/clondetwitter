@@ -66,6 +66,14 @@ class TweetsController < ApplicationController
     end
   end
 
+  def busqueda
+    if params[:q].present?
+      @tweets = Tweet.search_by_description_and_username(params[:q]).page(params[:page]).per(10)
+    else
+      @tweets = []
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_tweet
